@@ -4,74 +4,162 @@
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>Twijgje · Interactieve demo</title>
 <style>
-:root{font:16px/1.5 system-ui,-apple-system,Segoe UI,sans-serif;color:#223c37;background:#f4f6f1;--green:#215d4c;--line:#dce4dc}*{box-sizing:border-box}body{margin:0}button,input,select{font:inherit}button{cursor:pointer}button:disabled{cursor:not-allowed;opacity:.5}button:focus-visible,input:focus-visible,select:focus-visible{outline:3px solid #c38d33;outline-offset:3px}header{background:#183f34;color:white;padding:24px max(24px,calc((100vw - 1200px)/2));display:flex;justify-content:space-between;align-items:center;gap:24px}.brand{font-size:28px;font-weight:750;letter-spacing:-1px}.brand small{font-size:13px;display:block;font-weight:400;letter-spacing:0;color:#d2e4d8}.badge{background:#36594d;border:1px solid #789183;border-radius:30px;padding:6px 13px;font-size:13px}main{max-width:1248px;margin:auto;padding:24px}.notice{background:#fff9e9;border:1px solid #e5d6af;border-radius:10px;padding:12px 18px;font-size:14px;color:#665327}.tabs{display:flex;gap:8px;margin:24px 0}.tabs button{border:0;border-radius:8px;padding:11px 20px;background:transparent;color:var(--green);font-weight:600}.tabs button[aria-selected=true]{background:var(--green);color:white}h1{font-size:30px;line-height:1.2;margin:0 0 8px;letter-spacing:-.7px}h2{font-size:20px;margin:0 0 10px}h3{font-size:16px;margin:0 0 10px}p{margin:8px 0 18px}.muted{color:#64756b;font-size:14px}.toolbar{display:flex;gap:16px;align-items:end;justify-content:space-between;flex-wrap:wrap;margin:24px 0}.field{display:flex;flex-direction:column;gap:5px;font-size:13px;font-weight:600}input:not([type=checkbox]),select{padding:9px 10px;border:1px solid #b6c6ba;border-radius:6px;background:white;color:#223c37;min-height:42px}input[type=checkbox]{accent-color:var(--green);width:20px;height:20px;cursor:pointer}.stats{display:grid;grid-template-columns:repeat(5,1fr);gap:14px;margin:20px 0}.stat{padding:18px 22px;background:white;border:1px solid var(--line);border-radius:10px}.stat strong{display:block;font-size:28px;line-height:1.4}.stat span{font-size:13px;color:#64756b}.card{background:white;border:1px solid var(--line);border-radius:12px;padding:22px;margin:16px 0}.table-wrap{overflow:auto;border:1px solid var(--line);border-radius:10px;background:white}table{border-collapse:collapse;width:100%;font-size:14px;text-align:left}th{background:#eaf0e8;color:#52665b;font-size:12px;font-weight:650;white-space:nowrap}th,td{padding:14px 16px;border-bottom:1px solid var(--line)}tbody tr:last-child td{border-bottom:0}td small{display:block;color:#718176}.center{text-align:center}td select{font-size:13px;min-width:136px}.tag{display:inline-block;font-size:11px;font-weight:650;border-radius:4px;padding:3px 7px;background:#e7efe8;color:#3d6550}.tag.absent{background:#fbe9e5;color:#953e31}.tag.unknown{background:#fff2cb;color:#795b16}.tag.leave{background:#edf0f4;color:#536477}.tag.present{background:#e2f0e5;color:#2a683b}.tag.pvt{background:#eef0fa;color:#535f90}.btn{border:1px solid #b8cabb;border-radius:7px;padding:10px 16px;background:white;color:var(--green);font-weight:600}.btn.primary{background:var(--green);color:white;border-color:var(--green)}.btn.danger{color:#9a3b32}.right{text-align:right}.grid{display:grid;grid-template-columns:1fr 1fr;gap:20px}.row{display:flex;gap:12px;flex-wrap:wrap;align-items:end}.row .field{flex:1;min-width:130px}.error{color:#9a3b32}.success{color:#306843}.status{font-size:13px;min-height:22px;margin-top:10px}#toast{position:fixed;bottom:24px;right:24px;background:#183f34;color:white;border-radius:9px;padding:14px 20px;max-width:calc(100vw - 48px);box-shadow:0 4px 25px #0002;z-index:10}#toast:empty{display:none}.invoice{padding:36px;max-width:900px;margin:24px auto;background:white;border:1px solid var(--line);border-radius:10px}.invoice-top{display:flex;justify-content:space-between;gap:20px}.invoice-total{border-top:2px solid var(--green);text-align:right;padding-top:15px;margin-top:20px;font-size:22px;font-weight:700}.empty{text-align:center;padding:40px;color:#64756b}.invoice table{margin:16px 0}.subheading{padding-top:20px;margin-top:24px;border-top:1px solid var(--line)}.screen-only{}[hidden]{display:none!important}footer{font-size:12px;color:#64756b;margin:30px 0}a{color:var(--green)}
+:root{font:16px/1.5 system-ui,-apple-system,Segoe UI,sans-serif;color:#223c37;background:#f4f6f1;--green:#215d4c;--line:#dce4dc}*{box-sizing:border-box}body{margin:0}button,input,select{font:inherit}button{cursor:pointer}button:disabled{cursor:not-allowed;opacity:.5}button:focus-visible,input:focus-visible,select:focus-visible{outline:3px solid #c38d33;outline-offset:3px}header{background:#183f34;color:white;padding:24px max(24px,calc((100vw - 1200px)/2));display:flex;justify-content:space-between;align-items:center;gap:24px}.brand{font-size:28px;font-weight:750;letter-spacing:-1px}.brand small{font-size:13px;display:block;font-weight:400;letter-spacing:0;color:#d2e4d8}.badge{background:#36594d;border:1px solid #789183;border-radius:30px;padding:6px 13px;font-size:13px}main{max-width:1248px;margin:auto;padding:24px}.notice{background:#fff9e9;border:1px solid #e5d6af;border-radius:10px;padding:12px 18px;font-size:14px;color:#665327}.tabs{display:flex;gap:8px;margin:24px 0}.tabs button{border:0;border-radius:8px;padding:11px 20px;background:transparent;color:var(--green);font-weight:600}.tabs button[aria-selected=true]{background:var(--green);color:white}h1{font-size:30px;line-height:1.2;margin:0 0 8px;letter-spacing:-.7px}h2{font-size:20px;margin:0 0 10px}h3{font-size:16px;margin:0 0 10px}p{margin:8px 0 18px}.muted{color:#64756b;font-size:14px}.toolbar{display:flex;gap:16px;align-items:end;justify-content:space-between;flex-wrap:wrap;margin:24px 0}.field{display:flex;flex-direction:column;gap:5px;font-size:13px;font-weight:600}input:not([type=checkbox]),select{padding:9px 10px;border:1px solid #b6c6ba;border-radius:6px;background:white;color:#223c37;min-height:42px}input[type=checkbox]{accent-color:var(--green);width:20px;height:20px;cursor:pointer}.stats{display:grid;grid-template-columns:repeat(5,1fr);gap:14px;margin:20px 0}.stat{padding:18px 22px;background:white;border:1px solid var(--line);border-radius:10px}.stat strong{display:block;font-size:28px;line-height:1.4}.stat span{font-size:13px;color:#64756b}.card{background:white;border:1px solid var(--line);border-radius:12px;padding:22px;margin:16px 0}.table-wrap{overflow:auto;border:1px solid var(--line);border-radius:10px;background:white}table{border-collapse:collapse;width:100%;font-size:14px;text-align:left}th{background:#eaf0e8;color:#52665b;font-size:12px;font-weight:650;white-space:nowrap}th,td{padding:14px 16px;border-bottom:1px solid var(--line)}tbody tr:last-child td{border-bottom:0}td small{display:block;color:#718176}.center{text-align:center}td select{font-size:13px;min-width:136px}.tag{display:inline-block;font-size:11px;font-weight:650;border-radius:4px;padding:3px 7px;background:#e7efe8;color:#3d6550}.tag.absent{background:#fbe9e5;color:#953e31}.tag.unknown{background:#fff2cb;color:#795b16}.tag.leave{background:#edf0f4;color:#536477}.tag.present{background:#e2f0e5;color:#2a683b}.tag.pvt{background:#eef0fa;color:#535f90}.btn{border:1px solid #b8cabb;border-radius:7px;padding:10px 16px;background:white;color:var(--green);font-weight:600}.btn.primary{background:var(--green);color:white;border-color:var(--green)}.btn.danger{color:#9a3b32}.right{text-align:right}.grid{display:grid;grid-template-columns:1fr 1fr;gap:20px}.row{display:flex;gap:12px;flex-wrap:wrap;align-items:end}.row .field{flex:1;min-width:130px}.error{color:#9a3b32}.success{color:#306843}.status{font-size:13px;min-height:22px;margin-top:10px}#toast{position:fixed;bottom:24px;right:24px;background:#183f34;color:white;border-radius:9px;padding:14px 20px;max-width:calc(100vw - 48px);box-shadow:0 4px 25px #0002;z-index:10}#toast:empty{display:none}.invoice{padding:36px;max-width:900px;margin:24px auto;background:white;border:1px solid var(--line);border-radius:10px}.invoice-top{display:flex;justify-content:space-between;gap:20px}.invoice-total{border-top:2px solid var(--green);text-align:right;padding-top:15px;margin-top:20px;font-size:22px;font-weight:700}.empty{text-align:center;padding:40px;color:#64756b}.invoice table{margin:16px 0}.subheading{padding-top:20px;margin-top:24px;border-top:1px solid var(--line)}.quantities{display:grid;grid-template-columns:repeat(3,100px);gap:8px}.quantities input{width:100%}.extra-field input{width:200px}.extra-field{min-width:200px}.report-stats{grid-template-columns:repeat(3,1fr)}textarea{font:inherit;width:100%;padding:12px;border:1px solid #b6c6ba;border-radius:6px;min-height:180px}.tab-count{font-size:12px}.screen-only{}[hidden]{display:none!important}footer{font-size:12px;color:#64756b;margin:30px 0}a{color:var(--green)}
 @media(max-width:760px){.tabs{flex-wrap:wrap}main{padding:16px}header{padding:20px}.badge{font-size:11px}.stats{grid-template-columns:1fr 1fr}.grid{grid-template-columns:1fr}.tabs button{padding:10px 12px}.invoice{padding:20px}.invoice-top{flex-direction:column}h1{font-size:26px}}
 @media print{@page{size:A4;margin:14mm}body{background:white;font-size:11pt}body>*:not(main),main>*:not(#billing),#billing>*:not(#invoice),.screen-only{display:none!important}main,#billing{max-width:none;padding:0;margin:0}#billing[hidden]{display:block!important}.invoice{border:0;border-radius:0;max-width:none;padding:0;margin:0}.invoice th,.invoice td{padding:8px}tr{break-inside:avoid}h3{break-after:avoid}.invoice-top{flex-direction:row}}
 </style>
 <header><div class="brand">twijgje<span aria-hidden="true"> 🌿</span><small>Dagregistratie & maandafrekening</small></div><span class="badge">Interactieve demo · fictieve gegevens</span></header>
 <main>
 <div class="notice"><strong>Probeer gerust uit.</strong> Dit is een lokale demo, zonder Teams-koppeling. Gebruik alleen fictieve gegevens. Opslag is per browser en wordt niet gedeeld met andere laptops. Facturen zijn uitsluitend concepten.</div>
-<nav class="tabs" role="tablist" aria-label="Onderdelen"><button role="tab" id="tab-daily" aria-controls="daily" aria-selected="true" data-tab="daily">Daglijst</button><button role="tab" id="tab-billing" aria-controls="billing" aria-selected="false" data-tab="billing" tabindex="-1">Maandafrekening</button><button role="tab" id="tab-settings" aria-controls="settings" aria-selected="false" data-tab="settings" tabindex="-1">Instellingen</button></nav>
+<nav class="tabs" role="tablist" aria-label="Onderdelen"><button role="tab" id="tab-daily" aria-controls="daily" aria-selected="true" data-tab="daily">Daglijst</button><button role="tab" id="tab-billing" aria-controls="billing" aria-selected="false" data-tab="billing" tabindex="-1">Maandafrekening</button><button role="tab" id="tab-reports" aria-controls="reports" aria-selected="false" data-tab="reports" tabindex="-1">Overzichten</button><button role="tab" id="tab-settings" aria-controls="settings" aria-selected="false" data-tab="settings" tabindex="-1">Instellingen</button></nav>
 <section id="daily" role="tabpanel" aria-labelledby="tab-daily"><h1>Een dag bij Twijgje</h1><p class="muted">Registreer wat er werkelijk gebeurde. Een planning telt nooit automatisch mee voor de afrekening.</p>
 <div class="toolbar"><div class="row"><label class="field">Datum<input id="day" type="date" value="2026-07-27" min="2020-01-01" max="2099-12-31"></label><label class="field">Dagdeel<select id="period"><option value="am">Voormiddag</option><option value="pm">Namiddag</option></select></label></div><span id="save-status" class="muted" role="status">Wijzigingen worden lokaal bewaard.</span></div>
-<div id="stats" class="stats"></div><div class="table-wrap"><table><caption class="muted" style="text-align:left;padding:14px 16px">Alleen de verwachte cliënten voor het gekozen dagdeel</caption><thead><tr><th>Cliënt</th><th>Planning</th><th id="presence-heading">Voormiddag</th><th class="center">Maaltijd</th><th class="center">Soep</th><th class="center">Andere¹</th><th class="right">Dagtotaal</th></tr></thead><tbody id="daily-rows"></tbody></table></div><div class="toolbar"><div class="row"><label class="field">Onverwachte bezoeker<select id="extra-client"></select></label><button id="add-client" class="btn">Toevoegen aan dit dagdeel</button></div></div><p class="muted">Niet gepland? Dan hoef je voor dat dagdeel niets aan te duiden. Maaltijden, soep, andere kosten en het dagtotaal gelden voor de hele dag; wisselen van dagdeel rekent ze niet dubbel aan. De vaste voorbeeldplanning is in deze demo elke datum hetzelfde.</p><p class="muted">¹ In deze demo is ‘Andere’ één extra prestatie per dag. Het precieze gebruik stemmen we nog af. Onbekend betekent: nog niet geregistreerd. Een halve dag verlof sluit consumpties die dag niet uit; bij een volledige verlofdag worden alle kosten uitgesloten.</p></section>
-<section id="billing" role="tabpanel" aria-labelledby="tab-billing" hidden><h1>De maand in beeld</h1><p class="muted">Een concept per cliënt of één verzamelfactuur voor de PVT-instelling, met details per cliënt.</p><div class="toolbar"><div class="row"><label class="field">Maand<input id="month" type="month" value="2026-07" min="2020-01" max="2099-12"></label><label class="field">Factuurontvanger<select id="recipient"></select></label></div><button id="print" class="btn primary">Afdrukken / opslaan als PDF</button></div><p class="notice screen-only">De afrekening gebruikt alleen ingevoerde prestaties. Dit is geen definitieve facturatie: ontbrekende registraties en andere dagen moeten vóór een echte maandafsluiting gecontroleerd worden. Er worden geen facturen verstuurd.</p><div id="invoice" class="invoice"></div></section>
-<section id="settings" role="tabpanel" aria-labelledby="tab-settings" hidden><h1>Instellingen voor de demo</h1><p class="muted">Alle namen en bedragen zijn voorbeelden. Voeg nieuwe tarieven toe met hun ingangsdatum.</p><div class="grid"><div class="card"><h2>Tarieven</h2><p class="muted">€4 per dagdeel en maaltijd is een testbedrag. Soep en andere hebben nog geen tarief. Leeg is niet hetzelfde als gratis: vul expliciet 0 in voor een gratis prestatie.</p><form id="rate-form"><label class="field">Geldig vanaf<input type="date" id="rate-date" min="2020-01-01" max="2099-12-31" value="2026-01-01" required></label><div class="row" style="margin:12px 0"><label class="field">Dagdeel (€)<input id="rate-session" type="number" min="0" max="9999" step="0.01" required value="4"></label><label class="field">Maaltijd (€)<input id="rate-meal" type="number" min="0" max="9999" step="0.01" required value="4"></label></div><div class="row" style="margin:12px 0"><label class="field">Soep (€)<input id="rate-soup" type="number" min="0" max="9999" step="0.01" placeholder="Nog te bepalen"></label><label class="field">Andere (€)<input id="rate-other" type="number" min="0" max="9999" step="0.01" placeholder="Nog te bepalen"></label></div><button class="btn primary">Tarief bewaren</button></form><div id="rate-history"></div><p class="muted">Concepten worden herberekend. Definitieve, onveranderlijke facturen horen bij de latere productieversie.</p></div><div><div class="card"><h2>Demogegevens</h2><p>Vijf fictieve cliënten, waarvan twee bij <strong>PVT Voorbeeldhuis</strong>. Voor 27 juli 2026 zijn voorbeeldregistraties ingevuld.</p><p class="muted">Het afzenderadres, rekeningnummer, factuurnummering en de ondertekening zijn nog niet ingericht. Er worden geen echte cliëntgegevens geïmporteerd.</p><button id="reset" class="btn danger">Demo opnieuw beginnen</button></div><div class="card"><h2>Zo probeer je het uit</h2><ol><li>Wijzig een aanwezigheid in de daglijst.</li><li>Vink een maaltijd of soep aan.</li><li>Vul bij soep eventueel een testtarief in.</li><li>Bekijk de maandafrekening van een cliënt of de PVT.</li><li>Gebruik afdrukken om een concept als PDF op te slaan.</li></ol></div></div></div></section>
+<div id="stats" class="stats"></div><div class="table-wrap"><table><caption class="muted" style="text-align:left;padding:14px 16px">Alleen de verwachte cliënten voor het gekozen dagdeel</caption><thead><tr><th>Cliënt</th><th>Planning</th><th id="presence-heading">Voormiddag</th><th>Aantallen per dag</th><th>Vrij bedrag per dag</th><th class="right">Dagtotaal</th></tr></thead><tbody id="daily-rows"></tbody></table></div><div class="toolbar"><div class="row"><label class="field">Onverwachte bezoeker<select id="extra-client"></select></label><button id="add-client" class="btn">Toevoegen aan dit dagdeel</button></div></div><p class="muted">Niet gepland? Dan hoef je voor dat dagdeel niets aan te duiden. Maaltijden, soep, andere kosten en het dagtotaal gelden voor de hele dag; wisselen van dagdeel rekent ze niet dubbel aan. De vaste voorbeeldplanning is in deze demo elke datum hetzelfde.</p><p class="muted">Aantallen mogen 0 tot 99 zijn. Vul bij een vrij bedrag ook een omschrijving in, bijvoorbeeld ‘Winkeltje’ of ‘Daguitstap’. Volledig verlof verwijdert de kosten voor die dag. Een halve dag verlof sluit consumpties die dag niet uit.</p></section>
+<section id="billing" role="tabpanel" aria-labelledby="tab-billing" hidden><h1>De maand in beeld</h1><p class="muted">Een concept per cliënt of één verzamelfactuur voor de PVT-instelling, met details per cliënt.</p><div class="toolbar"><div class="row"><label class="field">Maand<input id="month" type="month" value="2026-07" min="2020-01" max="2099-12"></label><label class="field">Factuurontvanger<select id="recipient"></select></label></div><button id="print" class="btn primary">Afdrukken / opslaan als PDF</button></div><p class="notice screen-only">De afrekening gebruikt alleen ingevoerde prestaties. Dit is geen definitieve facturatie: ontbrekende registraties en andere dagen moeten vóór een echte maandafsluiting gecontroleerd worden. Er worden geen facturen verstuurd.</p><div class="card screen-only"><h2>E-mail voorbereiden</h2><p class="muted">Bewaar per factuurontvanger een contactpersoon, bijvoorbeeld een bewindvoerder. Dit opent hoogstens een concept in je eigen mailprogramma; de demo verstuurt niets. De concept-PDF moet je zelf toevoegen.</p><form id="mail-form"><div class="row"><label class="field">Contactpersoon (fictief)<input id="mail-name" maxlength="100" placeholder="Bewindvoerder of cliënt"></label><label class="field">E-mailadres (fictief)<input id="mail-email" type="email" maxlength="254" placeholder="voorbeeld@example.invalid"></label><button class="btn" type="submit">Ontvanger bewaren</button><button class="btn" id="mail-compose" type="button">E-mailtekst voorbereiden</button></div></form><div id="mail-preview" hidden><h3 class="subheading" id="mail-subject"></h3><label class="field">Voorbeeldtekst<textarea id="mail-body" readonly></textarea></label><p class="muted">Controleer de ontvanger en voeg de PDF handmatig toe. Alleen een demo: geen echte factuur verzenden.</p><a id="mail-open" class="btn" href="#">Open concept in je mailprogramma</a></div></div><div id="invoice" class="invoice"></div></section>
+<section id="reports" role="tabpanel" aria-labelledby="tab-reports" hidden><h1>Overzichten</h1><p class="muted">Gebaseerd op de lokaal bewaarde fictieve registraties. Download een CSV om het overzicht apart te bewaren en in Excel te openen.</p><div class="toolbar"><label class="field">Jaar<input id="report-year" type="number" min="2020" max="2099" step="1" value="2026"></label><button id="export-year" class="btn">Jaaroverzicht downloaden (CSV)</button></div><h2>Jaarverslag</h2><div id="year-stats" class="stats report-stats"></div><div id="year-warning"></div><div class="table-wrap"><table><thead><tr><th>Cliënt</th><th>Ingeschreven</th><th>Uitgeschreven vanaf</th><th>Nieuw dit jaar</th><th>Uit dit jaar</th><th>Aanwezige dagen</th><th>Dag­delen</th></tr></thead><tbody id="year-rows"></tbody></table></div><p class="muted">‘Aanwezige dagen’ telt per cliënt iedere datum met minstens één aanwezig dagdeel één keer. De som is het aantal cliëntdagen, niet het aantal openingsdagen. Uitschrijfdatum is de eerste dag waarop iemand niet meer actief is. De demo bewaart één inschrijfperiode per cliënt; herinschrijvingen zijn nog niet uitgewerkt.</p><div class="toolbar"><div><h2>PVT-aanwezigheden</h2><p class="muted">PVT Voorbeeldhuis · uitsplitsing per cliënt</p></div><div class="row"><label class="field">Periode binnen het gekozen jaar<select id="pvt-month"><option value="">Heel het jaar</option><option value="01">Januari</option><option value="02">Februari</option><option value="03">Maart</option><option value="04">April</option><option value="05">Mei</option><option value="06">Juni</option><option value="07">Juli</option><option value="08">Augustus</option><option value="09">September</option><option value="10">Oktober</option><option value="11">November</option><option value="12">December</option></select></label><button id="export-pvt" class="btn">PVT-overzicht downloaden (CSV)</button></div></div><div id="pvt-stats" class="stats report-stats"></div><div class="table-wrap"><table><thead><tr><th>Cliënt</th><th>Aanwezige dagen</th><th>Dag­delen</th><th>Volledige dagequivalenten</th><th>Datums</th></tr></thead><tbody id="pvt-rows"></tbody></table></div><p class="muted">Twee dagdelen tellen als één volledig dagequivalent. Afwezigheid, verlof en onbekende registraties tellen niet mee. Dit zijn tellingen van ingevoerde aanwezigheden, geen verklaring dat de volledige periode gecontroleerd is.</p></section>
+<section id="settings" role="tabpanel" aria-labelledby="tab-settings" hidden><h1>Instellingen voor de demo</h1><p class="muted">Alle namen en bedragen zijn voorbeelden. Voeg nieuwe tarieven toe met hun ingangsdatum.</p><div class="grid"><div class="card"><h2>Tarieven</h2><p class="muted">€4 per dagdeel en maaltijd is een testbedrag. Soep, Zoete Inval en overige consumpties hebben nog geen tarief. Leeg is niet hetzelfde als gratis: vul expliciet 0 in voor een gratis prestatie.</p><form id="rate-form"><label class="field">Geldig vanaf<input type="date" id="rate-date" min="2020-01-01" max="2099-12-31" value="2026-01-01" required></label><div class="row" style="margin:12px 0"><label class="field">Dagdeel (€)<input id="rate-session" type="number" min="0" max="9999.99" step="0.01" required value="4"></label><label class="field">Maaltijd (€)<input id="rate-meal" type="number" min="0" max="9999.99" step="0.01" required value="4"></label></div><div class="row" style="margin:12px 0"><label class="field">Soep (€)<input id="rate-soup" type="number" min="0" max="9999.99" step="0.01" placeholder="Nog te bepalen"></label><label class="field">Andere, oude demo (€)<input id="rate-other" type="number" min="0" max="9999.99" step="0.01" placeholder="Nog te bepalen"></label></div><div class="row" style="margin:12px 0"><label class="field">Zoete Inval per consumptie (€)<input id="rate-snack" type="number" min="0" max="9999.99" step="0.01" placeholder="Nog te bepalen"></label></div><button class="btn primary">Tarief bewaren</button></form><div id="rate-history"></div><p class="muted">Concepten worden herberekend. Definitieve, onveranderlijke facturen horen bij de latere productieversie.</p></div><div><div class="card"><h2>Demogegevens</h2><p>Vijf fictieve cliënten, waarvan twee bij <strong>PVT Voorbeeldhuis</strong>. Voor 27 juli 2026 zijn voorbeeldregistraties ingevuld.</p><p class="muted">Het afzenderadres, rekeningnummer, factuurnummering en de ondertekening zijn nog niet ingericht. Er worden geen echte cliëntgegevens geïmporteerd.</p><button id="reset" class="btn danger">Demo opnieuw beginnen</button></div><div class="card"><h2>Zo probeer je het uit</h2><ol><li>Wijzig een aanwezigheid in de daglijst.</li><li>Vul aantallen maaltijden, soep en Zoete Inval in.</li><li>Vul bij soep eventueel een testtarief in.</li><li>Bekijk de maandafrekening van een cliënt of de PVT.</li><li>Gebruik afdrukken om een concept als PDF op te slaan.</li></ol></div></div></div><div class="card"><h2>In- en uitschrijfdata</h2><p class="muted">Deze data vormen de basis voor het jaarverslag. Gebruik alleen fictieve data. Bij een oudere demo blijven onbekende inschrijfdata leeg totdat je ze invult. Een uitschrijfdatum sluit de cliënt vanaf die datum uit de verwachte lijst.</p><div id="client-dates"></div></div></section>
 <footer>Demo voor bespreking · geen Microsoft 365-aanmelding nodig · voor gedeeld gebruik volgt een afzonderlijke Teams-inrichting.</footer>
 </main><div id="toast" role="status" aria-live="polite"></div>
 <script id="billing-core">
 const Twijgje = (() => {
-  const states = ['unknown','present','absent','leave'];
-  const labels = {session:'Aanwezigheid',meal:'Middagmaal',soup:'Soep',other:'Andere'};
-  function seed(){return {version:1,clients:[
-    {id:'D001',name:'Emma Voorbeeld',recipient:'self',plan:[true,true]},
-    {id:'D002',name:'Noor Test',recipient:'self',plan:[true,false]},
-    {id:'D003',name:'Sam Demo',recipient:'pvt',plan:[true,true]},
-    {id:'D004',name:'Robin Fictief',recipient:'pvt',plan:[false,true]},
-    {id:'D005',name:'Alex Voorbeeld',recipient:'self',plan:[true,true]}
-  ],rates:[{date:'2026-01-01',session:400,meal:400,soup:null,other:null}],records:{'2026-07-27':{
-    D001:{am:'present',pm:'present',meal:true,soup:false,other:false},
-    D002:{am:'present',pm:'absent',meal:false,soup:false,other:false},
-    D003:{am:'present',pm:'present',meal:true,soup:false,other:false},
-    D004:{am:'absent',pm:'present',meal:false,soup:false,other:false},
-    D005:{am:'leave',pm:'leave',meal:false,soup:false,other:false}
-  }}};}
-  function blank(){return {am:'unknown',pm:'unknown',meal:false,soup:false,other:false};}
-  function expected(client,record,period){return record?.expected?.[period] ?? client.plan[period==='am'?0:1];}
-  function roster(data,date,period){return data.clients.filter(c=>{const r=data.records[date]?.[c.id];return expected(c,r,period)||r?.[period]==='present'||r?.[period]==='leave';});}
-  function validDate(date){if(!/^\d{4}-\d{2}-\d{2}$/.test(date))return false;const d=new Date(date+'T12:00:00Z');return !isNaN(d)&&d.toISOString().slice(0,10)===date;}
+  const states = ['unknown', 'present', 'absent', 'leave'];
+  const kinds = ['meal', 'soup', 'snack', 'other'];
+  const rateKinds = ['session', ...kinds];
+  const labels = {session:'Aanwezigheid', meal:'Middagmaal', soup:'Soep', snack:'Zoete Inval', other:'Andere (oude demo)'};
+  const qty = value => typeof value === 'boolean' ? Number(value) : (value ?? 0);
+  const plain = value => value !== null && typeof value === 'object' && !Array.isArray(value);
+  const integer = (value, max) => Number.isInteger(value) && value >= 0 && value <= max;
+  function seed() {
+    return {version:2, clients:[
+      {id:'D001', name:'Emma Voorbeeld', recipient:'self', plan:[true,true], started:'2025-04-01', ended:null},
+      {id:'D002', name:'Noor Test', recipient:'self', plan:[true,false], started:'2026-01-15', ended:null},
+      {id:'D003', name:'Sam Demo', recipient:'pvt', plan:[true,true], started:'2024-09-01', ended:null},
+      {id:'D004', name:'Robin Fictief', recipient:'pvt', plan:[false,true], started:'2026-03-01', ended:null},
+      {id:'D005', name:'Alex Voorbeeld', recipient:'self', plan:[true,true], started:'2026-02-01', ended:'2026-09-30'}
+    ], contacts:{}, rates:[{date:'2026-01-01',session:400,meal:400,soup:null,snack:null,other:null}], records:{'2026-07-27':{
+      D001:{...blank(),am:'present',pm:'present',meal:1},
+      D002:{...blank(),am:'present',pm:'absent'},
+      D003:{...blank(),am:'present',pm:'present',meal:1},
+      D004:{...blank(),am:'absent',pm:'present'},
+      D005:{...blank(),am:'leave',pm:'leave'}
+    }}};
+  }
+  function blank(){return {am:'unknown',pm:'unknown',meal:0,soup:0,snack:0,other:0,extraCents:0,extraNote:''};}
+  function validDate(date){
+    if(typeof date !== 'string' || !/^\d{4}-\d{2}-\d{2}$/.test(date)) return false;
+    const d = new Date(date+'T12:00:00Z');
+    return !isNaN(d) && d.toISOString().slice(0,10) === date;
+  }
+  function active(client,date){return (!client.started || client.started <= date) && (!client.ended || date < client.ended);}
+  function expected(client,record,period,date){return (!date || active(client,date)) && (record?.expected?.[period] ?? client.plan[period==='am'?0:1]);}
+  function roster(data,date,period){
+    return data.clients.filter(c => {
+      const r = data.records[date]?.[c.id];
+      return expected(c,r,period,date) || r?.[period] === 'present' || r?.[period] === 'leave';
+    });
+  }
+  function fullLeave(r){return r.am === 'leave' && r.pm === 'leave';}
+  function clearCosts(r){for(const k of kinds)r[k]=0;r.extraCents=0;r.extraNote='';}
   function valid(data){
-    if(!data||data.version!==1||!Array.isArray(data.clients)||!Array.isArray(data.rates)||!data.records||typeof data.records!=='object')return false;
+    if(!plain(data) || data.version !== 2 || !Array.isArray(data.clients) || !Array.isArray(data.rates) || !plain(data.records) || !plain(data.contacts)) return false;
     const reference=seed().clients;
-    if(data.clients.length!==reference.length||!reference.every((c,i)=>Object.keys(c).every(k=>JSON.stringify(data.clients[i]?.[k])===JSON.stringify(c[k]))))return false;
-    if(!data.rates.every(r=>validDate(r.date)&&['session','meal','soup','other'].every(k=>r[k]===null||(Number.isInteger(r[k])&&r[k]>=0&&r[k]<=999900))))return false;
-    return Object.entries(data.records).every(([date,rs])=>validDate(date)&&rs&&typeof rs==='object'&&Object.entries(rs).every(([id,r])=>reference.some(c=>c.id===id)&&r&&(r.expected===undefined||(r.expected&&['am','pm'].every(k=>typeof r.expected[k]==='boolean')))&&states.includes(r.am)&&states.includes(r.pm)&&['meal','soup','other'].every(k=>typeof r[k]==='boolean')&&!(r.am==='leave'&&r.pm==='leave'&&(r.meal||r.soup||r.other))));
+    if(data.clients.length !== reference.length || !reference.every((c,i) => ['id','name','recipient','plan'].every(k => JSON.stringify(data.clients[i]?.[k]) === JSON.stringify(c[k])))) return false;
+    if(!data.clients.every(c => (c.started===null || validDate(c.started)) && (c.ended===null || validDate(c.ended)) && (!c.started || !c.ended || c.ended>=c.started))) return false;
+    if(!data.rates.every(r => plain(r) && validDate(r.date) && rateKinds.every(k => r[k]===null || integer(r[k],999999)))) return false;
+    if(!Object.entries(data.contacts).every(([id,c]) => (id==='pvt'||reference.some(r=>r.id===id&&r.recipient==='self')) && plain(c) && typeof c.name==='string' && c.name.length<=100 && typeof c.email==='string' && c.email.length<=254 && !/[\r\n]/.test(c.email))) return false;
+    return Object.entries(data.records).every(([date,rs]) => validDate(date) && plain(rs) && Object.entries(rs).every(([id,r]) =>
+      reference.some(c=>c.id===id) && plain(r) && (r.expected===undefined || (plain(r.expected) && ['am','pm'].every(k=>typeof r.expected[k]==='boolean'))) &&
+      states.includes(r.am) && states.includes(r.pm) && kinds.every(k=>integer(r[k],99)) && integer(r.extraCents,999999) && typeof r.extraNote==='string' && r.extraNote.length<=160 &&
+      !(fullLeave(r) && (kinds.some(k=>r[k]>0) || r.extraCents>0))));
+  }
+  function upgrade(source){
+    if(!plain(source))throw Error('Ongeldige opslag');
+    if(source.version===2){if(!valid(source))throw Error('Ongeldige opslag');return source;}
+    if(source.version!==1 || !Array.isArray(source.clients) || !Array.isArray(source.rates) || !plain(source.records))throw Error('Onbekende versie');
+    const d=JSON.parse(JSON.stringify(source));
+    // De oude versie kent geen inschrijfdata. Niet gokken op basis van aanwezigheid.
+    d.clients=d.clients.map(c=>({...c,started:null,ended:null}));
+    d.contacts={};d.version=2;
+    d.rates=d.rates.map(r=>({...r,snack:null}));
+    for(const rs of Object.values(d.records)){
+      if(!plain(rs))throw Error('Ongeldige daglijst');
+      for(const r of Object.values(rs)){
+        if(!plain(r) || !['meal','soup','other'].every(k=>typeof r[k]==='boolean'))throw Error('Ongeldige consumpties');
+        for(const k of ['meal','soup','other'])r[k]=Number(r[k]);
+        r.snack=0;r.extraCents=0;r.extraNote='';
+      }
+    }
+    if(!valid(d))throw Error('Ongeldige opslag');
+    return d;
   }
   function rateAt(rates,date){return rates.filter(r=>r.date<=date).sort((a,b)=>b.date.localeCompare(a.date))[0]||{};}
   function linesFor(record,date,rates){
-    if(record.am==='leave'&&record.pm==='leave')return [];
+    if(fullLeave(record))return [];
     const rate=rateAt(rates,date),lines=[];
-    for(const [key,label] of [['am','Aanwezig VM'],['pm','Aanwezig NM']])if(record[key]==='present')lines.push({date,description:label,kind:'session',cents:rate.session??null});
-    for(const k of ['meal','soup','other'])if(record[k])lines.push({date,description:labels[k],kind:k,cents:rate[k]??null});
+    const add=(kind,description,quantity,unitCents)=>lines.push({date,description,kind,quantity,unitCents,cents:unitCents===null?null:quantity*unitCents});
+    for(const [key,label] of [['am','Aanwezig VM'],['pm','Aanwezig NM']]) if(record[key]==='present') add('session',label,1,rate.session??null);
+    for(const k of kinds) if(qty(record[k])>0) add(k,labels[k],qty(record[k]),rate[k]??null);
+    if(record.extraCents>0)add('extra',record.extraNote.trim()||'Omschrijving ontbreekt',1,record.extraCents);
     return lines;
   }
   function summarize(data,month,recipient){
     const clients=data.clients.filter(c=>recipient==='pvt'?c.recipient==='pvt':c.id===recipient&&c.recipient==='self');
-    const groups=clients.map(client=>{const lines=[];let unknown=0;for(const date of Object.keys(data.records).sort()){if(!date.startsWith(month+'-'))continue;const r=data.records[date][client.id]||blank();unknown+=Number(expected(client,r,'am')&&r.am==='unknown')+Number(expected(client,r,'pm')&&r.pm==='unknown');lines.push(...linesFor(r,date,data.rates));}return {client,lines,unknown,total:lines.reduce((s,l)=>s+(l.cents??0),0),missing:lines.filter(l=>l.cents===null).length};});
-    return {groups,total:groups.reduce((s,g)=>s+g.total,0),missing:groups.reduce((s,g)=>s+g.missing,0),unknown:groups.reduce((s,g)=>s+g.unknown,0),count:groups.reduce((s,g)=>s+g.lines.length,0)};
+    const groups=clients.map(client=>{
+      const lines=[];let unknown=0,missingNotes=0;
+      for(const date of Object.keys(data.records).sort()){
+        if(!date.startsWith(month+'-'))continue;
+        const r=data.records[date][client.id]||blank();
+        unknown+=Number(expected(client,r,'am',date)&&r.am==='unknown')+Number(expected(client,r,'pm',date)&&r.pm==='unknown');
+        missingNotes+=Number(!fullLeave(r)&&r.extraCents>0&&!r.extraNote.trim());
+        lines.push(...linesFor(r,date,data.rates));
+      }
+      return {client,lines,unknown,missingNotes,total:lines.reduce((s,l)=>s+(l.cents??0),0),missing:lines.filter(l=>l.cents===null).length};
+    });
+    const sum=k=>groups.reduce((s,g)=>s+g[k],0);
+    return {groups,total:sum('total'),missing:sum('missing'),missingNotes:sum('missingNotes'),unknown:sum('unknown'),count:groups.reduce((s,g)=>s+g.lines.length,0)};
   }
-  return {seed,blank,valid,validDate,rateAt,linesFor,summarize,expected,roster};
+  function attendance(data,start,end,pvtOnly=false){
+    return data.clients.filter(c=>!pvtOnly||c.recipient==='pvt').map(client=>{
+      const dates=[];let sessions=0;
+      for(const date of Object.keys(data.records).sort()){
+        if(date<start || date>end)continue;
+        const r=data.records[date][client.id];if(!r)continue;
+        const n=Number(r.am==='present')+Number(r.pm==='present');
+        if(n){dates.push(date);sessions+=n;}
+      }
+      return {client,dates,days:dates.length,sessions,equivalent:sessions/2};
+    });
+  }
+  function annual(data,year){
+    const start=year+'-01-01',end=year+'-12-31';
+    const between=d=>Boolean(d&&d>=start&&d<=end);
+    const rows=attendance(data,start,end).map(r=>({...r,newEntry:between(r.client.started),exit:between(r.client.ended)}));
+    return {rows,newEntries:rows.filter(r=>r.newEntry).length,exits:rows.filter(r=>r.exit).length,
+      activeEnd:data.clients.filter(c=>c.started&&active(c,end)).length,
+      unknownStarts:data.clients.filter(c=>!c.started).length,
+      days:rows.reduce((s,r)=>s+r.days,0),sessions:rows.reduce((s,r)=>s+r.sessions,0)};
+  }
+  function csv(rows){
+    const cell=value=>{
+      let s=String(value??'');
+      // Excel mag invoertekst nooit als formule uitvoeren.
+      if(/^[\s]*[=+\-@]/.test(s))s="'"+s;
+      return '"'+s.replace(/"/g,'""')+'"';
+    };
+    return '\uFEFF'+rows.map(row=>row.map(cell).join(';')).join('\r\n');
+  }
+  return {seed,blank,valid,validDate,upgrade,active,expected,roster,fullLeave,clearCosts,rateAt,linesFor,summarize,attendance,annual,csv,kinds,rateKinds,labels};
 })();
 </script>
 <script>
 (()=>{
 const $=id=>document.getElementById(id), key='twijgje-demo-v1', money=c=>new Intl.NumberFormat('nl-BE',{style:'currency',currency:'EUR'}).format(c/100), escape=s=>String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c])), displayDate=d=>d.split('-').reverse().join('/');
 let data=Twijgje.seed(), toastTimer, storageMessage='';
-try{const saved=localStorage.getItem(key);if(saved){const parsed=JSON.parse(saved);if(Twijgje.valid(parsed))data=parsed;else storageMessage='De opgeslagen demo kon niet worden gelezen. De voorbeeldgegevens zijn geladen; je oude opslag is nog niet overschreven.';}}catch{storageMessage='Lokale opslag is niet beschikbaar of beschadigd. Wijzigingen blijven alleen in deze geopende demo bewaard.';}
+try{const saved=localStorage.getItem(key);if(saved){const parsed=JSON.parse(saved);data=Twijgje.upgrade(parsed);if(parsed.version===1){try{localStorage.setItem(key+'-backup-v1',saved);}catch{}storageMessage='Bestaande demoregistraties overgenomen. Inschrijfdata uit de oude demo zijn onbekend; vul ze bij Instellingen aan.';}}}catch{storageMessage='Lokale opslag is niet beschikbaar of beschadigd. Wijzigingen blijven alleen in deze geopende demo bewaard.';}
 function toast(text){$('toast').textContent=text;clearTimeout(toastTimer);toastTimer=setTimeout(()=>$('toast').textContent='',6000);}
 function persist(){try{localStorage.setItem(key,JSON.stringify(data));$('save-status').textContent='Lokaal bewaard in deze browser.';storageMessage='';}catch{$('save-status').textContent='Niet opgeslagen: wijzigingen alleen in dit venster.';toast('Bewaren is niet gelukt. Sluit deze demo niet als je de wijzigingen nog wilt bekijken.');}}
 function dayRecords(){return data.records[$('day').value]||{};}
-function fullLeave(r){return r.am==='leave'&&r.pm==='leave';}
+function fullLeave(r){return Twijgje.fullLeave(r);}
 function renderDay(){
  const date=$('day').value;if(!Twijgje.validDate(date))return;
  const period=$('period').value,periodLabel=period==='am'?'Voormiddag':'Namiddag',records=dayRecords(),clients=Twijgje.roster(data,date,period);
@@ -81,19 +169,84 @@ function renderDay(){
   const r=records[c.id]||Twijgje.blank();sessions+=Number(r[period]==='present');absent+=Number(r[period]==='absent');leave+=Number(r[period]==='leave');unknown+=Number(r[period]==='unknown');
   const lines=Twijgje.linesFor(r,date,data.rates),missing=lines.some(l=>l.cents===null);
   const select=`<select data-client="${c.id}" data-field="${period}" aria-label="${periodLabel} ${escape(c.name)}">${[['unknown','Nog invullen'],['present','Aanwezig'],['absent','Afwezig'],['leave','Verlof']].map(([v,t])=>`<option value="${v}" ${r[period]===v?'selected':''}>${t}</option>`).join('')}</select>`;
-  return `<tr><td><strong>${escape(c.name)}</strong><small>${c.id} · <span class="tag ${c.recipient==='pvt'?'pvt':''}">${c.recipient==='pvt'?'PVT':'Eigen factuur'}</span></small><span class="tag ${r[period]}">${({unknown:'Nog niet bevestigd',present:'Aanwezig',absent:'Afwezig',leave:'Verlof'})[r[period]]}</span></td><td>${Twijgje.expected(c,r,period)?'Verwacht':'Extra bezoek'}</td><td>${select}</td>${['meal','soup','other'].map((k,i)=>`<td class="center"><input type="checkbox" data-client="${c.id}" data-field="${k}" aria-label="${['Maaltijd','Soep','Andere'][i]} ${escape(c.name)}" ${r[k]?'checked':''} ${fullLeave(r)?'disabled':''}></td>`).join('')}<td class="right">${missing?'<span class="error">Tarief ontbreekt</span>':money(lines.reduce((s,l)=>s+l.cents,0))}${r[period]==='unknown'?'<small>Dagdeel nog invullen</small>':''}</td></tr>`;
- }).join('')||'<tr><td colspan="7" class="empty">Geen cliënten verwacht voor dit dagdeel. Je kunt hieronder een onverwachte bezoeker toevoegen.</td></tr>';
+  return `<tr><td><strong>${escape(c.name)}</strong><small>${c.id} · <span class="tag ${c.recipient==='pvt'?'pvt':''}">${c.recipient==='pvt'?'PVT':'Eigen factuur'}</span></small><span class="tag ${r[period]}">${({unknown:'Nog niet bevestigd',present:'Aanwezig',absent:'Afwezig',leave:'Verlof'})[r[period]]}</span></td><td>${Twijgje.expected(c,r,period,date)?'Verwacht':'Extra bezoek'}</td><td>${select}</td><td><div class="quantities">${['meal','soup','snack',...(r.other>0?['other']:[])].map(k=>`<label class="field">${Twijgje.labels[k]}<input type="number" min="0" max="99" step="1" data-client="${c.id}" data-field="${k}" aria-label="Aantal ${Twijgje.labels[k]} ${escape(c.name)}" value="${r[k]}" ${fullLeave(r)?'disabled':''}></label>`).join('')}</div></td><td><div class="extra-field"><label class="field">Bedrag (€)<input type="number" min="0" max="9999.99" step="0.01" data-client="${c.id}" data-field="extraCents" aria-label="Vrij bedrag ${escape(c.name)}" value="${(r.extraCents/100).toFixed(2)}" ${fullLeave(r)?'disabled':''}></label><label class="field">Omschrijving<input type="text" maxlength="160" data-client="${c.id}" data-field="extraNote" aria-label="Omschrijving vrij bedrag ${escape(c.name)}" value="${escape(r.extraNote)}" placeholder="Winkeltje, uitstap, …" ${fullLeave(r)?'disabled':''}></label><small class="error" data-note-warning ${r.extraCents>0&&!r.extraNote.trim()?'':'hidden'}>Omschrijving ontbreekt</small></div></td><td class="right">${missing?'<span class="error">Tarief ontbreekt</span>':money(lines.reduce((s,l)=>s+l.cents,0))}${r[period]==='unknown'?'<small>Dagdeel nog invullen</small>':''}</td></tr>`;
+ }).join('')||'<tr><td colspan="6" class="empty">Geen cliënten verwacht voor dit dagdeel. Je kunt hieronder een onverwachte bezoeker toevoegen.</td></tr>';
  $('stats').innerHTML=[[clients.length,'Verwacht / extra in dit dagdeel'],[sessions,'Aanwezig in dit dagdeel'],[absent,'Afwezig in dit dagdeel'],[leave,'Verlof in dit dagdeel'],[unknown,'Nog in te vullen in dit dagdeel']].map(([n,t])=>`<div class="stat"><strong>${n}</strong><span>${t}</span></div>`).join('');
- const extras=data.clients.filter(c=>!clients.some(v=>v.id===c.id));
+ const extras=data.clients.filter(c=>Twijgje.active(c,date)&&!clients.some(v=>v.id===c.id));
  $('extra-client').innerHTML=extras.length?extras.map(c=>`<option value="${c.id}">${escape(c.name)}</option>`).join(''):'<option value="">Iedereen staat al in dit dagdeel</option>';
  $('extra-client').disabled=$('add-client').disabled=!extras.length;
 }
 function renderRecipients(){const old=$('recipient').value;$('recipient').innerHTML=data.clients.filter(c=>c.recipient==='self').map(c=>`<option value="${c.id}">${escape(c.name)}</option>`).join('')+'<option value="pvt">PVT Voorbeeldhuis · verzamelfactuur</option>';if([...$('recipient').options].some(o=>o.value===old))$('recipient').value=old;}
 function renderInvoice(){const month=$('month').value;if(!/^\d{4}-(0[1-9]|1[0-2])$/.test(month)){$('print').disabled=true;return;}const recipient=$('recipient').value,result=Twijgje.summarize(data,month,recipient),name=recipient==='pvt'?'PVT Voorbeeldhuis':result.groups[0]?.client.name||'',period=new Intl.DateTimeFormat('nl-BE',{month:'long',year:'numeric'}).format(new Date(month+'-15T12:00:00')),issue=new Date(),due=new Date(issue);due.setDate(due.getDate()+30);const dformat=d=>new Intl.DateTimeFormat('nl-BE').format(d);
-$('invoice').innerHTML=`<div class="invoice-top"><div><h2>Twijgje</h2><span class="tag">CONCEPT · DEMO · GEEN BETAALVERZOEK</span><p class="muted">Afzender- en rekeninggegevens nog in te stellen</p></div><div><strong>Maandafrekening</strong><br>${escape(period)}<br><small>Conceptdatum: ${dformat(issue)}<br>Vervaldatum bij uitgifte vandaag: ${dformat(due)}</small></div></div><h3>Aan: ${escape(name)}</h3><p class="muted">Factuuradres en definitief factuurnummer volgen in de productieversie.</p>${result.missing?`<p class="notice error">Voor ${result.missing} prestatie(s) ontbreekt een tarief. Vul dit eerst in bij Instellingen. Er kan nog geen compleet totaal worden berekend.</p>`:''}${result.unknown?`<p class="notice">${result.unknown} dagdeelregistratie(s) binnen de ingevoerde dagen zijn nog onbekend. Vul die eerst aan voordat je afdrukt.</p>`:''}${!result.count?'<p class="empty">Geen aan te rekenen prestaties geregistreerd voor deze selectie.</p>':result.groups.map(g=>`<h3 class="subheading">${escape(g.client.name)} <span class="muted">· ${g.client.id}</span></h3>${g.lines.length?`<table><thead><tr><th>Datum</th><th>Omschrijving</th><th class="right">Bedrag</th></tr></thead><tbody>${g.lines.map(l=>`<tr><td>${displayDate(l.date)}</td><td>${escape(l.description)}</td><td class="right">${l.cents===null?'Tarief ontbreekt':money(l.cents)}</td></tr>`).join('')}</tbody></table><p class="right"><strong>Subtotaal ${g.missing?'onvolledig':money(g.total)}</strong></p>`:'<p class="muted">Geen aan te rekenen prestaties.</p>'}`).join('')}<div class="invoice-total">${result.missing?'Totaal nog niet beschikbaar':'Totaal '+money(result.total)}</div><p class="muted">Verlof wordt niet aangerekend. Deze demo bevat uitsluitend ingevoerde prestaties, geen bevestigde volledige maand. Tarieven kunnen nog veranderen.</p><h3 class="subheading">Voorbeeld begeleidende tekst</h3><p>Geachte heer/mevrouw,</p><p>Hierbij vindt u de conceptafrekening voor ${escape(period)}${recipient==='pvt'?', uitgesplitst per cliënt':''}. Voor definitieve facturen geldt een betalingstermijn van 30 dagen. Betalingsreferentie en rekeninggegevens worden later ingesteld.</p><p class="muted">Dit document is een demonstratie. Gelieve niets te betalen.</p>`;
-$('print').disabled=Boolean(result.missing||result.unknown||!result.count);}
-function renderRates(){$('rate-history').innerHTML='<h3 class="subheading">Bewaarde tarieven</h3>'+data.rates.slice().sort((a,b)=>b.date.localeCompare(a.date)).map(r=>`<p><strong>Vanaf ${displayDate(r.date)}</strong><br><span class="muted">Dagdeel ${r.session===null?'—':money(r.session)} · Maaltijd ${r.meal===null?'—':money(r.meal)} · Soep ${r.soup===null?'nog te bepalen':money(r.soup)} · Andere ${r.other===null?'nog te bepalen':money(r.other)}</span><br><button class="btn" type="button" data-edit-rate="${r.date}">Bewerken</button></p>`).join('');}
-function showTab(id){for(const b of document.querySelectorAll('[data-tab]')){const selected=b.dataset.tab===id;b.setAttribute('aria-selected',String(selected));b.tabIndex=selected?0:-1;$(b.dataset.tab).hidden=!selected;}if(id==='billing')renderInvoice();}
+$('invoice').innerHTML=`<div class="invoice-top"><div><h2>Twijgje</h2><span class="tag">CONCEPT · DEMO · GEEN BETAALVERZOEK</span><p class="muted">Afzender- en rekeninggegevens nog in te stellen</p></div><div><strong>Maandafrekening</strong><br>${escape(period)}<br><small>Conceptdatum: ${dformat(issue)}<br>Vervaldatum bij uitgifte vandaag: ${dformat(due)}</small></div></div><h3>Aan: ${escape(name)}</h3><p class="muted">Factuuradres en definitief factuurnummer volgen in de productieversie.</p>${result.missing?`<p class="notice error">Voor ${result.missing} prestatie(s) ontbreekt een tarief. Vul dit eerst in bij Instellingen. Er kan nog geen compleet totaal worden berekend.</p>`:''}${result.unknown?`<p class="notice">${result.unknown} dagdeelregistratie(s) binnen de ingevoerde dagen zijn nog onbekend. Vul die eerst aan voordat je afdrukt.</p>`:''}${result.missingNotes?'<p class="notice error">Vul bij ieder vrij bedrag een omschrijving in voordat je afdrukt.</p>':''}${!result.count?'<p class="empty">Geen aan te rekenen prestaties geregistreerd voor deze selectie.</p>':result.groups.map(g=>`<h3 class="subheading">${escape(g.client.name)} <span class="muted">· ${g.client.id}</span></h3>${g.lines.length?`<table><thead><tr><th>Datum</th><th>Omschrijving</th><th class="right">Aantal</th><th class="right">Eenheidsprijs</th><th class="right">Bedrag</th></tr></thead><tbody>${g.lines.map(l=>`<tr><td>${displayDate(l.date)}</td><td>${escape(l.description)}</td><td class="right">${l.quantity}</td><td class="right">${l.unitCents===null?'—':money(l.unitCents)}</td><td class="right">${l.cents===null?'Tarief ontbreekt':money(l.cents)}</td></tr>`).join('')}</tbody></table><p class="right"><strong>Subtotaal ${g.missing?'onvolledig':money(g.total)}</strong></p>`:'<p class="muted">Geen aan te rekenen prestaties.</p>'}`).join('')}<div class="invoice-total">${result.missing?'Totaal nog niet beschikbaar':'Totaal '+money(result.total)}</div><p class="muted">Verlof wordt niet aangerekend. Deze demo bevat uitsluitend ingevoerde prestaties, geen bevestigde volledige maand. Tarieven kunnen nog veranderen.</p><h3 class="subheading">Voorbeeld begeleidende tekst</h3><p>Geachte heer/mevrouw,</p><p>Hierbij vindt u de conceptafrekening voor ${escape(period)}${recipient==='pvt'?', uitgesplitst per cliënt':''}. Voor definitieve facturen geldt een betalingstermijn van 30 dagen. Betalingsreferentie en rekeninggegevens worden later ingesteld.</p><p class="muted">Dit document is een demonstratie. Gelieve niets te betalen.</p>`;
+$('print').disabled=Boolean(result.missing||result.missingNotes||result.unknown||!result.count);$('mail-compose').disabled=$('print').disabled;const contact=data.contacts[recipient]||{};$('mail-name').value=contact.name||'';$('mail-email').value=contact.email||'';$('mail-preview').hidden=true;}
+function renderRates(){$('rate-history').innerHTML='<h3 class="subheading">Bewaarde tarieven</h3>'+data.rates.slice().sort((a,b)=>b.date.localeCompare(a.date)).map(r=>`<p><strong>Vanaf ${displayDate(r.date)}</strong><br><span class="muted">Dagdeel ${r.session===null?'—':money(r.session)} · Maaltijd ${r.meal===null?'—':money(r.meal)} · Soep ${r.soup===null?'nog te bepalen':money(r.soup)} · Zoete Inval ${r.snack===null?'nog te bepalen':money(r.snack)} · Andere (oud) ${r.other===null?'nog te bepalen':money(r.other)}</span><br><button class="btn" type="button" data-edit-rate="${r.date}">Bewerken</button></p>`).join('');}
+function renderClientDates(){
+ $('client-dates').innerHTML=data.clients.map(c=>`<form data-dates="${c.id}" class="row" style="margin:18px 0"><strong style="min-width:160px">${escape(c.name)}</strong><label class="field">Inschrijfdatum<input type="date" name="started" min="2020-01-01" max="2099-12-31" value="${c.started||''}" aria-label="Inschrijfdatum ${escape(c.name)}"></label><label class="field">Uitgeschreven vanaf<input type="date" name="ended" min="2020-01-01" max="2099-12-31" value="${c.ended||''}" aria-label="Uitschrijfdatum ${escape(c.name)}"></label><button class="btn">Data bewaren</button></form>`).join('');
+}
+function reportRange(){
+ const year=$('report-year').value,month=$('pvt-month').value;
+ if(!/^20\d{2}$/.test(year))return null;
+ const start=month?`${year}-${month}-01`:`${year}-01-01`;
+ const end=month?new Date(Date.UTC(Number(year),Number(month),0)).toISOString().slice(0,10):`${year}-12-31`;
+ return {year,month,start,end};
+}
+function renderReports(){
+ const range=reportRange();$('export-year').disabled=$('export-pvt').disabled=!range;if(!range)return;
+ const a=Twijgje.annual(data,range.year),pvt=Twijgje.attendance(data,range.start,range.end,true);
+ const stats=(items)=>items.map(([n,label])=>`<div class="stat"><strong>${n}</strong><span>${label}</span></div>`).join('');
+ $('year-stats').innerHTML=stats([[a.newEntries,'Nieuwe inschrijvingen'],[a.exits,'Uitschrijvingen'],[a.activeEnd,'Gekend actief op 31 december']]);
+ $('year-warning').innerHTML=(a.unknownStarts?`<p class="notice">Bij ${a.unknownStarts} cliënt(en) ontbreekt de inschrijfdatum. De telling van nieuwe en actieve cliënten is daardoor onvolledig. Vul de data aan bij Instellingen.</p>`:'')+`<p class="muted">${a.days} cliëntdagen · ${a.sessions} aanwezige dagdelen in ${range.year}. Alleen ingevoerde aanwezigheden tellen mee.</p>`;
+ $('year-rows').innerHTML=a.rows.map(r=>`<tr><td>${escape(r.client.name)}<small>${r.client.id}</small></td><td>${r.client.started?displayDate(r.client.started):'Onbekend'}</td><td>${r.client.ended?displayDate(r.client.ended):'—'}</td><td>${r.newEntry?'Ja':'—'}</td><td>${r.exit?'Ja':'—'}</td><td>${r.days}</td><td>${r.sessions}</td></tr>`).join('');
+ const days=pvt.reduce((s,r)=>s+r.days,0),sessions=pvt.reduce((s,r)=>s+r.sessions,0);
+ $('pvt-stats').innerHTML=stats([[days,'Aanwezige cliëntdagen'],[sessions,'Aanwezige dagdelen'],[new Intl.NumberFormat('nl-BE').format(sessions/2),'Volledige dagequivalenten']]);
+ $('pvt-rows').innerHTML=pvt.map(r=>`<tr><td>${escape(r.client.name)}<small>${r.client.id}</small></td><td>${r.days}</td><td>${r.sessions}</td><td>${new Intl.NumberFormat('nl-BE').format(r.equivalent)}</td><td>${r.dates.length?`<details><summary>Bekijk ${r.days} datum(s)</summary>${r.dates.map(displayDate).join('<br>')}</details>`:'Geen geregistreerde aanwezigheid'}</td></tr>`).join('');
+}
+function downloadCsv(filename,rows){
+ const url=URL.createObjectURL(new Blob([Twijgje.csv(rows)],{type:'text/csv;charset=utf-8'})),link=document.createElement('a');
+ link.href=url;link.download=filename;document.body.append(link);link.click();link.remove();setTimeout(()=>URL.revokeObjectURL(url),1000);
+ toast('Overzicht gedownload. Bewaar het CSV-bestand op een geschikte plek.');
+}
+function saveContact(){
+ if(!$('mail-form').reportValidity())return false;
+ data.contacts[$('recipient').value]={name:$('mail-name').value.trim(),email:$('mail-email').value.trim()};persist();return true;
+}
+$('client-dates').addEventListener('submit',e=>{
+ e.preventDefault();const form=e.target.closest('[data-dates]');if(!form||!form.reportValidity())return;
+ const started=form.elements.started.value||null,ended=form.elements.ended.value||null;
+ if(started&&ended&&ended<started){toast('De uitschrijfdatum mag niet vóór de inschrijfdatum liggen.');return;}
+ const client=data.clients.find(c=>c.id===form.dataset.dates);client.started=started;client.ended=ended;
+ persist();renderDay();renderReports();toast('Data bewaard. Het jaaroverzicht en de verwachte lijst zijn bijgewerkt.');
+});
+for(const id of ['report-year','pvt-month'])$(id).addEventListener('change',renderReports);
+$('export-year').addEventListener('click',()=>{
+ const range=reportRange();if(!range)return;const a=Twijgje.annual(data,range.year);
+ downloadCsv(`twijgje-jaaroverzicht-${range.year}.csv`,[
+  ['Jaar','Clientnummer','Client','Inschrijfdatum','Uitgeschreven vanaf','Nieuw dit jaar','Uit dit jaar','Aanwezige dagen','Aanwezige dagdelen','Gekend actief op 31 december','Inschrijfdatum ontbreekt'],
+  ...a.rows.map(r=>[range.year,r.client.id,r.client.name,r.client.started,r.client.ended,Number(r.newEntry),Number(r.exit),r.days,r.sessions,Number(Boolean(r.client.started)&&Twijgje.active(r.client,range.year+'-12-31')),Number(!r.client.started)]),
+  [range.year,'','TOTAAL (dagen zijn clientdagen)','','',a.newEntries,a.exits,a.days,a.sessions,a.activeEnd,a.unknownStarts]
+ ]);
+});
+$('export-pvt').addEventListener('click',()=>{
+ const range=reportRange();if(!range)return;const rows=Twijgje.attendance(data,range.start,range.end,true);
+ downloadCsv(`twijgje-pvt-${range.year}${range.month?'-'+range.month:''}.csv`,[
+  ['Van','Tot','Instelling','Clientnummer','Client','Aanwezige dagen','Aanwezige dagdelen','Volledige dagequivalenten','Aanwezige datums'],
+  ...rows.map(r=>[range.start,range.end,'PVT Voorbeeldhuis',r.client.id,r.client.name,r.days,r.sessions,String(r.equivalent).replace('.',','),r.dates.join(', ')])
+ ]);
+});
+$('mail-form').addEventListener('submit',e=>{e.preventDefault();if(saveContact()){toast('Contactpersoon lokaal bewaard voor deze factuurontvanger.');$('mail-preview').hidden=true;}});
+$('mail-compose').addEventListener('click',()=>{
+ if($('print').disabled||!saveContact())return;
+ const contact=data.contacts[$('recipient').value];if(!contact.email){toast('Vul eerst een fictief e-mailadres in.');$('mail-email').focus();return;}
+ const period=$('month').value,result=Twijgje.summarize(data,period,$('recipient').value);
+ const subject=`Twijgje — conceptafrekening ${period} (DEMO)`;
+ const body=`Geachte ${contact.name||'heer/mevrouw'},\n\nHierbij bereiden we de conceptafrekening voor ${period} voor. Het concepttotaal bedraagt ${money(result.total)}.\n\nDit is een demonstratie, geen betaalverzoek. De PDF moet je zelf toevoegen voordat je een bericht verstuurt.\n\nMet vriendelijke groet,\nTwijgje`;
+ $('mail-subject').textContent=subject;$('mail-body').value=body;
+ $('mail-open').href='mailto:'+encodeURIComponent(contact.email)+'?subject='+encodeURIComponent(subject)+'&body='+encodeURIComponent(body);
+ $('mail-preview').hidden=false;
+});
+
+function showTab(id){for(const b of document.querySelectorAll('[data-tab]')){const selected=b.dataset.tab===id;b.setAttribute('aria-selected',String(selected));b.tabIndex=selected?0:-1;$(b.dataset.tab).hidden=!selected;}if(id==='billing')renderInvoice();if(id==='reports')renderReports();}
 document.querySelector('.tabs').addEventListener('click',e=>{const b=e.target.closest('[data-tab]');if(b)showTab(b.dataset.tab);});
 document.querySelector('.tabs').addEventListener('keydown',e=>{const tabs=[...document.querySelectorAll('[data-tab]')],i=tabs.indexOf(document.activeElement);if(i<0)return;let n;if(e.key==='ArrowRight')n=(i+1)%tabs.length;if(e.key==='ArrowLeft')n=(i+tabs.length-1)%tabs.length;if(e.key==='Home')n=0;if(e.key==='End')n=tabs.length-1;if(n!==undefined){e.preventDefault();tabs[n].focus();showTab(tabs[n].dataset.tab);}});
 $('day').addEventListener('change',renderDay);
@@ -106,13 +259,31 @@ $('add-client').addEventListener('click',()=>{
  persist();renderDay();toast(client.name+' toegevoegd. Bevestig de werkelijke aanwezigheid.');
  document.querySelector(`[data-client="${client.id}"][data-field="${period}"]`)?.focus();
 });
-$('daily-rows').addEventListener('change',e=>{const el=e.target,id=el.dataset.client,field=el.dataset.field;if(!id||!field||!Twijgje.validDate($('day').value))return;const records=data.records[$('day').value]??={};const r=records[id]??=Twijgje.blank();r[field]=el.type==='checkbox'?el.checked:el.value;if(fullLeave(r)){const hadCosts=r.meal||r.soup||r.other;r.meal=r.soup=r.other=false;if(hadCosts)toast('Volledige dag verlof: maaltijd, soep en andere kosten zijn verwijderd.');}persist();renderDay();const replacement=document.querySelector(`[data-client="${id}"][data-field="${field}"]`);replacement?.focus();});
+$('daily-rows').addEventListener('change',e=>{
+ const el=e.target,id=el.dataset.client,field=el.dataset.field;
+ if(!id||!field||!Twijgje.validDate($('day').value))return;
+ if(!el.checkValidity()||(el.type==='number'&&el.value==='')){toast('Deze wijziging is niet bewaard. Vul een geldig, niet-negatief bedrag of geheel aantal in.');return;}
+ const records=data.records[$('day').value]??={},r=records[id]??=Twijgje.blank(),wasFocused=document.activeElement===el;
+ r[field]=el.type==='number'?(field==='extraCents'?Math.round(Number(el.value)*100):Number(el.value)):el.value;
+ if(fullLeave(r)){const hadCosts=Twijgje.kinds.some(k=>r[k]>0)||r.extraCents>0;Twijgje.clearCosts(r);if(hadCosts)toast('Volledige dag verlof: alle consumpties en vrije bedragen zijn verwijderd.');}
+ persist();
+ if(field==='am'||field==='pm'){
+  renderDay();if(wasFocused)document.querySelector(`[data-client="${id}"][data-field="${field}"]`)?.focus();
+ }else{
+  // Behoud de invoervelden bij het tabben of doorklikken naar de volgende kolom.
+  const row=el.closest('tr'),lines=Twijgje.linesFor(r,$('day').value,data.rates),missing=lines.some(l=>l.cents===null);
+  row.querySelector('td.right').innerHTML=missing?'<span class="error">Tarief ontbreekt</span>':money(lines.reduce((sum,l)=>sum+l.cents,0));
+  row.querySelector('[data-note-warning]').hidden=!(r.extraCents>0&&!r.extraNote.trim());
+  if(field==='extraCents')el.value=(r.extraCents/100).toFixed(2);
+ }
+
+});
 for(const id of ['month','recipient'])$(id).addEventListener('change',renderInvoice);
 $('print').addEventListener('click',()=>{renderInvoice();if(!$('print').disabled)window.print();});
-$('rate-form').addEventListener('submit',e=>{e.preventDefault();const date=$('rate-date').value;if(!Twijgje.validDate(date))return;const rate={date};for(const k of ['session','meal','soup','other']){const value=$('rate-'+k).value;rate[k]=value===''?null:Math.round(Number(value)*100);}data.rates=data.rates.filter(r=>r.date!==date);data.rates.push(rate);persist();renderRates();renderDay();toast('Tarief bewaard. De conceptafrekeningen gebruiken het tarief op de prestatiedatum.');});
-$('rate-history').addEventListener('click',e=>{const date=e.target.dataset.editRate;if(!date)return;const rate=data.rates.find(r=>r.date===date);$('rate-date').value=date;for(const k of ['session','meal','soup','other'])$('rate-'+k).value=rate[k]===null?'':(rate[k]/100).toFixed(2);$('rate-date').focus();});
-$('reset').addEventListener('click',()=>{if(!confirm('Alleen de lokaal opgeslagen demowijzigingen wissen en opnieuw beginnen met de fictieve voorbeelden?'))return;data=Twijgje.seed();$('day').value='2026-07-27';$('period').value='am';$('month').value='2026-07';$('rate-form').reset();persist();renderRecipients();renderRates();renderDay();renderInvoice();toast('De fictieve voorbeeldgegevens zijn teruggezet.');});
-renderRecipients();renderRates();renderDay();renderInvoice();if(storageMessage){$('save-status').textContent=storageMessage;toast(storageMessage);}
+$('rate-form').addEventListener('submit',e=>{e.preventDefault();const date=$('rate-date').value;if(!Twijgje.validDate(date))return;const rate={date};for(const k of Twijgje.rateKinds){const value=$('rate-'+k).value;rate[k]=value===''?null:Math.round(Number(value)*100);}data.rates=data.rates.filter(r=>r.date!==date);data.rates.push(rate);persist();renderRates();renderDay();toast('Tarief bewaard. De conceptafrekeningen gebruiken het tarief op de prestatiedatum.');});
+$('rate-history').addEventListener('click',e=>{const date=e.target.dataset.editRate;if(!date)return;const rate=data.rates.find(r=>r.date===date);$('rate-date').value=date;for(const k of Twijgje.rateKinds)$('rate-'+k).value=rate[k]===null?'':(rate[k]/100).toFixed(2);$('rate-date').focus();});
+$('reset').addEventListener('click',()=>{if(!confirm('Alleen de lokaal opgeslagen demowijzigingen wissen en opnieuw beginnen met de fictieve voorbeelden?'))return;data=Twijgje.seed();$('day').value='2026-07-27';$('period').value='am';$('month').value='2026-07';$('rate-form').reset();persist();renderRecipients();renderRates();renderDay();renderInvoice();renderClientDates();renderReports();toast('De fictieve voorbeeldgegevens zijn teruggezet.');});
+renderRecipients();renderRates();renderDay();renderInvoice();renderClientDates();renderReports();if(storageMessage){$('save-status').textContent=storageMessage;toast(storageMessage);}
 })();
 </script>
 </html>
