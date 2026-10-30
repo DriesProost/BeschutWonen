@@ -46,7 +46,7 @@ Bij **Daglijst → Blanco dagblad afdrukken** wordt voor de geselecteerde datum 
 
 ## Login en rollen
 
-Er is **geen beveiligde login in deze lokale demo**. De gevraagde Microsoft 365-aanmelding, beperkte facturatietoegang voor boekhouding Welzijnszorg Kempen en nog te bevestigen rechten voor Bart zijn beschreven in [het toegangsontwerp](../docs/TOEGANG.md). Daarin staan ook de concrete voorwaarden voor uitvoering en verificatie. Een wachtwoordscherm of verborgen tabblad in een los HTML-bestand beschermt de opgeslagen gegevens niet. Er worden dus geen accounts of wachtwoorden in de demo nagebootst.
+Er is **geen beveiligde login in deze lokale demo**. De gevraagde Microsoft 365-aanmelding, uitsluitend facturatietoegang voor zowel boekhouding Welzijnszorg Kempen als Bart zijn beschreven in [het toegangsontwerp](../docs/TOEGANG.md). Daarin staan ook de concrete voorwaarden voor uitvoering en verificatie. Een wachtwoordscherm of verborgen tabblad in een los HTML-bestand beschermt de opgeslagen gegevens niet. Er worden dus geen accounts of wachtwoorden in de demo nagebootst.
 
 ## Bestaande demogegevens
 

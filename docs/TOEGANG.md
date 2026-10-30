@@ -5,11 +5,11 @@ Status: ontwerp, niet ingericht. De lokale HTML-demo heeft geen aanmelding of to
 ## Gevraagde gebruikers
 
 - Boekhouding Welzijnszorg Kempen: uitsluitend facturatie, de daarvoor benodigde contactgegevens en eventuele exports. Geen algemene toegang tot de dagregistratie of overige cliëntcontactgegevens.
-- Bart: toegang nog te bevestigen (beheer van alle onderdelen of alleen facturen).
+- Bart: uitsluitend facturen en de daarvoor benodigde facturatiegegevens; geen toegang tot algemene cliëntenregistratie, daglijsten, planning of overige instellingen.
 - Dagwerking: aanwezigheid en noodzakelijke cliëntregistratie; factuurbeheer alleen als expliciet toegekend.
 - Beheer: gebruikers en bevoegdheden beheren, tarieven en instellingen aanpassen.
 
-De precieze gebruikersaccounts, toestemming voor eventuele externe toegang en de rechten van Bart moeten bij implementatie worden bevestigd. Geen gedeelde wachtwoorden. De namen van de organisatie en personen zijn hier rolvereisten, geen aangemaakte accounts.
+De precieze gebruikersaccounts en toestemming voor eventuele externe toegang moeten bij implementatie worden bevestigd. De rol van Bart is bevestigd: alleen facturen. Geen gedeelde wachtwoorden. De namen van de organisatie en personen zijn hier rolvereisten, geen aangemaakte accounts.
 
 ## Voorstel voor Microsoft 365
 
@@ -19,7 +19,7 @@ Autorisatie moet bij de gegevensbron of backend worden afgedwongen. Tabbladen ve
 
 ## Concrete voorwaarden voor uitvoering
 
-1. Een beheerder bevestigt de testtenant, gebruikers/gasten, groepen en de gewenste rollen, inclusief Bart.
+1. Een beheerder bevestigt de testtenant, gebruikers/gasten, groepen en de vastgelegde rollen: Bart en boekhouding uitsluitend facturatie.
 2. De beheerder maakt de benodigde testsite en appomgeving beschikbaar of verleent de noodzakelijke gedelegeerde rechten aan de implementator. Geen wachtwoorden of toegangssleutels in chat.
 3. Gegevens worden naar een beveiligde gedeelde opslag overgebracht. Toegang tot factuurgegevens en bronregistraties wordt afzonderlijk ingericht en gecontroleerd.
 4. De app wordt in de tenant geregistreerd/geconfigureerd met minimale rechten. Eventuele extra Power Apps/Power Automate-licenties worden gecontroleerd vóór ingebruikname.
