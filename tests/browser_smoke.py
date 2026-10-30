@@ -28,29 +28,30 @@ with sync_playwright() as p:
  page.get_by_role('tab',name='Daglijst',exact=True).click()
  set_value('[data-client="D001"][data-field="extraNote"]','Winkeltje en uitstap')
  page.get_by_role('tab',name='Instellingen',exact=True).click()
- page.locator('#rate-soup').fill('1.25');page.locator('#rate-snack').fill('1.50')
+ page.locator('#rate-soup').fill('1.50');page.locator('#rate-snack').fill('1.50')
  page.get_by_role('button',name='Tarief bewaren').click()
  page.get_by_role('tab',name='Maandafrekening').click()
- assert '€\xa038,75' in page.locator('.invoice-total').inner_text()
+ assert '€\xa041,25' in page.locator('.invoice-total').inner_text()
  assert page.locator('#print').is_enabled()
  mealrow=page.locator('#invoice tbody tr').filter(has_text='Middagmaal')
  assert mealrow.locator('td').nth(2).inner_text()=='2'
- assert '€\xa08,00'==mealrow.locator('td').nth(4).inner_text()
+ assert '€\xa010,00'==mealrow.locator('td').nth(4).inner_text()
  assert page.get_by_text('Winkeltje en uitstap',exact=True).count()==1
  page.pdf(path=str(Path(tempfile.gettempdir())/'twijgje-aantallen-concept.pdf'),format='A4',print_background=True)
  page.locator('#mail-name').fill('Bewindvoerder Voorbeeld');page.locator('#mail-email').fill('voorbeeld@example.invalid')
  page.locator('#mail-compose').click()
  assert page.locator('#mail-preview').is_visible()
  assert page.locator('#mail-open').get_attribute('href').startswith('mailto:voorbeeld%40example.invalid?')
- assert '€\xa038,75' in page.locator('#mail-body').input_value()
+ assert '€\xa041,25' in page.locator('#mail-body').input_value()
  page.locator('#recipient').select_option('pvt')
  assert page.locator('#mail-email').input_value()==''
- assert '€\xa016,00' in page.locator('.invoice-total').inner_text()
+ assert '€\xa00,00' in page.locator('.invoice-total').inner_text()
+ page.pdf(path=str(Path(tempfile.gettempdir())/'twijgje-pvt-concept.pdf'),format='A4',print_background=True)
  page.get_by_role('tab',name='Daglijst',exact=True).click()
  page.locator('#period').select_option('pm')
  assert page.locator('[data-client="D001"][data-field="meal"]').input_value()=='2'
  page.get_by_role('tab',name='Maandafrekening').click();page.locator('#recipient').select_option('D001')
- assert '€\xa038,75' in page.locator('.invoice-total').inner_text()
+ assert '€\xa041,25' in page.locator('.invoice-total').inner_text()
  assert page.locator('#mail-email').input_value()=='voorbeeld@example.invalid'
  page.reload(wait_until='domcontentloaded')
  assert page.locator('[data-client="D001"][data-field="meal"]').input_value()=='2'
@@ -84,7 +85,7 @@ with sync_playwright() as p:
  assert page.locator('[data-client="D001"][data-field="extraNote"]').input_value()==''
  page.screenshot(path=str(Path(tempfile.gettempdir())/'twijgje-aantallen.png'),full_page=True)
  page.set_viewport_size({'width':390,'height':844})
- for tab in ['Daglijst','Maandafrekening','Overzichten','Instellingen']:
+ for tab in ['Daglijst','Maandafrekening','Cliënten','Overzichten','Instellingen']:
   page.get_by_role('tab',name=tab,exact=True).click()
   assert page.evaluate('document.documentElement.scrollWidth <= innerWidth'), tab
  assert not errors,errors
@@ -97,6 +98,80 @@ with sync_playwright() as p:
  assert '5 cliënt(en)' in page.locator('#year-warning').inner_text()
  assert page.evaluate('localStorage.getItem("twijgje-demo-v1-backup-v1") !== null')
  assert not errors,errors
- print('Browser geslaagd: aantallen en €38,75 concept, omschrijving/tariefblokkades, mailconcept zonder verzending, gescheiden ontvangers, opslag, gedeelde dagkosten, jaar- en PVT-overzicht, CSV-downloads, datumaanpassing, verlof, mobiel, v1-migratie en PDF.')
+ print('Browser geslaagd: aantallen en €41,25 concept, omschrijving/tariefblokkades, mailconcept zonder verzending, gescheiden ontvangers, opslag, gedeelde dagkosten, jaar- en PVT-overzicht, CSV-downloads, datumaanpassing, verlof, mobiel, v1-migratie en PDF.')
+ # Separate fresh context for client management and binder printouts.
+ page=b.new_page(viewport={'width':1440,'height':1050})
+ page.on('pageerror',lambda e:errors.append(str(e)))
+ page.goto(url,wait_until='domcontentloaded')
+ page.evaluate('window.print=()=>{}')
+ page.locator('#print-day').click()
+ assert page.locator('#print-area h1').inner_text()=='Twijgje · dagblad'
+ assert page.locator('#print-area tbody tr').count()==10
+ first=page.locator('#print-area tbody tr').first
+ assert first.locator('td').nth(1).inner_text()=='+'
+ assert first.locator('td').nth(3).inner_text()==''
+ assert first.locator('td').nth(5).inner_text()==''
+ page.pdf(path=str(Path(tempfile.gettempdir())/'twijgje-dagblad.pdf'),format='A4',print_background=True)
+ page.get_by_role('tab',name='Cliënten',exact=True).click()
+ def client_field(id,value):page.locator('#client-'+id).fill(value)
+ client_field('name','Nieuwe Fictieve Cliënt')
+ client_field('start','2026-07-01')
+ client_field('address','Voorbeeldstraat 1')
+ client_field('email','client@example.invalid')
+ client_field('phone','000000000')
+ client_field('contact','Fictieve Bewindvoerder')
+ client_field('contact-email','bewind@example.invalid')
+ page.locator('#client-plan-pm').uncheck()
+ page.get_by_role('button',name='Cliënt bewaren',exact=True).click()
+ assert 'D006' in page.locator('#client-saved').inner_text()
+ page.locator('#clients-date').fill('2026-07-27');page.locator('#clients-date').dispatch_event('change')
+ assert page.locator('#clients-rows tr').count()==6
+ assert 'client@example.invalid' in page.locator('#clients-rows').inner_text()
+ page.locator('#print-clients').click()
+ assert page.locator('#print-area tbody tr').count()==6
+ assert 'client@example.invalid' not in page.locator('#print-area').inner_text()
+ page.pdf(path=str(Path(tempfile.gettempdir())/'twijgje-clientenlijst.pdf'),format='A4',print_background=True)
+ page.locator('#clients-filter').select_option('present')
+ assert page.locator('#clients-rows tr').count()==4
+ page.locator('#print-clients').click()
+ assert page.locator('#print-area tbody tr').count()==4
+ assert 'Aanwezig op deze datum' in page.locator('#print-area h2').inner_text()
+ page.locator('#clients-filter').select_option('active')
+ page.locator('[data-edit-client="D006"]').click()
+ assert page.locator('#client-contact').input_value()=='Fictieve Bewindvoerder'
+ page.locator('#client-pvt').check()
+ page.get_by_role('button',name='Cliënt bewaren',exact=True).click()
+ page.reload(wait_until='domcontentloaded')
+ page.get_by_role('tab',name='Cliënten',exact=True).click()
+ page.locator('#clients-date').fill('2026-07-27');page.locator('#clients-date').dispatch_event('change')
+ assert page.locator('#clients-rows tr').filter(has_text='Nieuwe Fictieve Cliënt').count()==1
+ page.locator('[data-edit-client="D006"]').click()
+ assert page.locator('#client-pvt').is_checked()
+ assert page.locator('#client-address').input_value()=='Voorbeeldstraat 1'
+ page.get_by_role('tab',name='Daglijst',exact=True).click()
+ page.locator('[data-client="D006"][data-field="am"]').select_option('present')
+ set_value('[data-client="D006"][data-field="meal"]','2')
+ set_value('[data-client="D006"][data-field="soup"]','3')
+ set_value('[data-client="D006"][data-field="snack"]','4')
+ set_value('[data-client="D006"][data-field="extraCents"]','25')
+ assert '€\xa00,00' in page.locator('[data-client="D006"][data-field="am"]').locator('xpath=ancestor::tr').inner_text()
+ page.get_by_role('tab',name='Maandafrekening').click();page.locator('#recipient').select_option('pvt')
+ assert '€\xa00,00' in page.locator('.invoice-total').inner_text()
+ assert page.locator('#print').is_enabled()
+ page.get_by_role('tab',name='Overzichten',exact=True).click()
+ assert page.locator('#pvt-rows tr').count()==3
+ assert page.locator('#pvt-rows tr').filter(has_text='Nieuwe Fictieve Cliënt').locator('td').nth(2).inner_text()=='1'
+ assert page.locator('#year-stats .stat').first.locator('strong').inner_text()=='4'
+ page.get_by_role('tab',name='Cliënten',exact=True).click()
+ page.locator('[data-edit-client="D006"]').click();client_field('end','2026-07-28')
+ page.get_by_role('button',name='Cliënt bewaren',exact=True).click()
+ page.get_by_role('tab',name='Daglijst',exact=True).click()
+ page.locator('#day').fill('2026-07-28');page.locator('#day').dispatch_event('change')
+ assert page.locator('[data-client="D006"][data-field="am"]').count()==0
+ page.set_viewport_size({'width':390,'height':844})
+ page.get_by_role('tab',name='Cliënten',exact=True).click()
+ assert page.evaluate('document.documentElement.scrollWidth <= innerWidth')
+ assert not errors,errors
+ print('Cliëntenbeheer en afdrukken geslaagd: inschrijven, contactgegevens, PVT aanvinken met altijd €0, historie, uitschrijven, blanco dagblad, ingeschreven/aanwezige lijsten zonder contactgegevens en mobiele weergave.')
  b.close()
 server.shutdown()

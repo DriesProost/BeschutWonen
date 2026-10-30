@@ -7,17 +7,17 @@ const context = vm.createContext({});
 vm.runInContext(html.match(/<script id="billing-core">([\s\S]*?)<\/script>/)[1] + '\nglobalThis.core = Twijgje;', context);
 const core = context.core;
 
-test('twee dagdelen en een maaltijd kosten samen 12 euro', () => {
+test('twee dagdelen en een maaltijd kosten samen 13 euro', () => {
   const result = core.summarize(core.seed(), '2026-07', 'D001');
-  assert.equal(result.total, 1200);
+  assert.equal(result.total, 1300);
   assert.equal(result.count, 3);
 });
-test('PVT verzamelt uitsluitend PVT-cliënten met detail per cliënt', () => {
+test('PVT-overzicht groepeert cliënten maar rekent nooit kosten aan', () => {
   const result = core.summarize(core.seed(), '2026-07', 'pvt');
   assert.equal(result.groups.length, 2);
-  assert.equal(result.groups[0].total, 1200);
-  assert.equal(result.groups[1].total, 400);
-  assert.equal(result.total, 1600);
+  assert.equal(result.groups[0].total, 0);
+  assert.equal(result.groups[1].total, 0);
+  assert.equal(result.total, 0);
   assert.equal(core.summarize(core.seed(), '2026-07', 'D003').count, 0);
 });
 test('verlof en afwezigheid leveren geen aanwezigheidskosten op', () => {
@@ -28,6 +28,7 @@ test('verlof en afwezigheid leveren geen aanwezigheidskosten op', () => {
 });
 test('ontbrekende consumptietarieven blijven onbekend; expliciet gratis is toegestaan', () => {
   const data = core.seed();
+  data.rates[0].soup = null;
   data.records['2026-07-27'].D001.soup = 1;
   data.records['2026-07-27'].D001.other = 1;
   assert.equal(core.summarize(data, '2026-07', 'D001').missing, 2);
@@ -35,14 +36,14 @@ test('ontbrekende consumptietarieven blijven onbekend; expliciet gratis is toege
   data.rates[0].other = 125;
   const result = core.summarize(data, '2026-07', 'D001');
   assert.equal(result.missing, 0);
-  assert.equal(result.total, 1325);
+  assert.equal(result.total, 1425);
 });
 test('tarief geldt vanaf de prestatiedatum, met correcte maandgrens', () => {
   const data = core.seed();
   data.rates.push({date:'2026-07-28',session:550,meal:625,soup:150,snack:null,other:200});
   data.records['2026-07-28'] = {D001:{...core.blank(),am:'present',pm:'absent',meal:1}};
   data.records['2026-08-01'] = {D001:{...core.blank(),am:'present',pm:'absent'}};
-  assert.equal(core.summarize(data, '2026-07', 'D001').total, 2375);
+  assert.equal(core.summarize(data, '2026-07', 'D001').total, 2475);
   assert.equal(core.summarize(data, '2026-08', 'D001').total, 550);
   assert.equal(core.rateAt(data.rates, '2025-12-31').session, undefined);
 });
@@ -51,7 +52,7 @@ test('onbekende dagdelen worden niet als aanwezigheid geteld of stilzwijgend afg
   data.records['2026-07-28'] = {D001:core.blank()};
   const result = core.summarize(data, '2026-07', 'D001');
   assert.equal(result.unknown, 2);
-  assert.equal(result.total, 1200);
+  assert.equal(result.total, 1300);
 });
 test('concept opnieuw berekenen dupliceert geen prestaties', () => {
   const data = core.seed();
@@ -100,11 +101,11 @@ test('toevoegen van een extra bezoeker vereist bevestiging en blijft datumgebond
   record.pm = 'present';
   assert.equal(core.summarize(data, '2026-07', 'D002').total, 800);
 });
-test('bestaande ongeplande aanwezigheden blijven zichtbaar en worden aangerekend', () => {
+test('bestaande ongeplande PVT-aanwezigheden blijven zichtbaar zonder kosten', () => {
   const data = core.seed();
   data.records['2026-07-27'].D004.am = 'present';
   assert.equal(core.roster(data, '2026-07-27', 'am').some(c => c.id === 'D004'), true);
-  assert.equal(core.summarize(data, '2026-07', 'pvt').total, 2000);
+  assert.equal(core.summarize(data, '2026-07', 'pvt').total, 0);
 });
 test('een ontbrekende registratie van een verwachte cliënt blijft zichtbaar bij maandcontrole', () => {
   const data = core.seed();
@@ -119,13 +120,13 @@ test('aantallen, eenheidsprijzen en vrij bedrag tellen exact één keer mee', ()
   Object.assign(data.rates[0], {soup:125,snack:150});
   const result = core.summarize(data, '2026-07', 'D001');
   // 2 dagdelen + 2 maaltijden + 2 soep + 3 Zoete Inval + vrij bedrag.
-  assert.equal(result.total, 3875);
+  assert.equal(result.total, 4075);
   assert.equal(result.missing, 0);
   assert.equal(result.missingNotes, 0);
   const meal = result.groups[0].lines.find(l => l.kind === 'meal');
   assert.equal(meal.quantity, 2);
-  assert.equal(meal.unitCents, 400);
-  assert.equal(meal.cents, 800);
+  assert.equal(meal.unitCents, 500);
+  assert.equal(meal.cents, 1000);
   const extra = result.groups[0].lines.find(l => l.kind === 'extra');
   assert.equal(extra.description, 'Winkeltje en uitstap');
   assert.equal(extra.cents, 1575);
@@ -191,7 +192,7 @@ test('uitschrijfdag is exclusief voor de verwachte lijst; aanwezige historie bli
   data.clients[0].ended = '2024-01-01';
   assert.equal(core.valid(data), false);
 });
-test('bestaande v1-opslag behoudt tarieven, planning en registraties bij migratie', () => {
+test('v1-migratie behoudt planning en registraties en past de nieuwe PVT-regel toe', () => {
   const data = core.seed();
   const old = {
     version:1,
@@ -204,11 +205,11 @@ test('bestaande v1-opslag behoudt tarieven, planning en registraties bij migrati
   const before = JSON.stringify(old);
   const upgraded = core.upgrade(old);
   assert.equal(core.valid(upgraded), true);
-  assert.equal(upgraded.version, 2);
+  assert.equal(upgraded.version, 3);
   assert.equal(upgraded.records['2026-07-27'].D001.meal, 1);
   assert.equal(upgraded.records['2026-07-27'].D002.expected.pm, true);
   assert.equal(upgraded.clients.every(c => c.started === null), true);
-  assert.equal(core.summarize(upgraded, '2026-07', 'pvt').total, 1600);
+  assert.equal(core.summarize(upgraded, '2026-07', 'pvt').total, 0);
   assert.equal(JSON.stringify(old), before);
   old.records['2026-07-27'].D001.meal = 'yes';
   assert.throws(() => core.upgrade(old));
@@ -218,4 +219,47 @@ test('CSV bewaart speciale tekens en neutraliseert formule-invoer voor Excel', (
   assert.equal(result.startsWith('\uFEFF'), true);
   assert.equal(result.includes('"A; B";"Een ""test""\nregel"'), true);
   assert.equal(result.includes('"\'=1+1";"\' @SUM(A1)"'), true);
+});
+
+test('PVT blijft nul bij consumpties, ontbrekende tarieven en vrije bedragen', () => {
+  const data = core.seed();
+  Object.assign(data.records['2026-07-27'].D003,{meal:2,soup:3,snack:4,other:2,extraCents:2500,extraNote:''});
+  data.rates = [];
+  const result = core.summarize(data,'2026-07','pvt');
+  assert.equal(result.total,0);
+  assert.equal(result.missing,0);
+  assert.equal(result.missingNotes,0);
+  assert.equal(result.groups[0].lines.every(l=>l.kind==='session'&&l.cents===0&&l.unitCents===0),true);
+  assert.equal(core.attendance(data,'2026-01-01','2026-12-31',true)[0].sessions,2);
+});
+test('PVT aanvinken verandert conceptkosten maar bewaart de aanwezigheden', () => {
+  const data = core.seed();
+  data.clients[0].recipient = 'pvt';
+  const report = core.summarize(data,'2026-07','pvt');
+  assert.equal(report.groups.length,3);
+  assert.equal(report.total,0);
+  assert.equal(core.attendance(data,'2026-07-01','2026-07-31',true)[0].sessions,2);
+});
+test('nieuwe cliënten met contactgegevens blijven geldig en verschijnen in het jaarverslag', () => {
+  const data = core.seed();
+  data.clients.push({id:'D006',name:'Nieuwe Test',recipient:'self',plan:[true,false],started:'2026-10-30',ended:null,address:'Fictief adres',email:'test@example.invalid',phone:'000'});
+  data.contacts.D006={name:'Bewindvoerder',email:'contact@example.invalid'};
+  assert.equal(core.valid(data),true);
+  assert.equal(core.annual(data,'2026').newEntries,4);
+  assert.equal(core.roster(data,'2026-10-29','am').some(c=>c.id==='D006'),false);
+  assert.equal(core.roster(data,'2026-10-30','am').some(c=>c.id==='D006'),true);
+  data.clients[5].id='D001';
+  assert.equal(core.valid(data),false);
+});
+test('v2-migratie corrigeert alleen maaltijd en soep en bewaart eigen overige tarieven', () => {
+  const data = core.seed();
+  data.version=2;
+  data.rates[0].meal=400;data.rates[0].soup=null;data.rates[0].snack=225;
+  const upgraded=core.upgrade(data);
+  assert.equal(upgraded.rates[0].meal,500);
+  assert.equal(upgraded.rates[0].soup,150);
+  assert.equal(upgraded.rates[0].snack,225);
+  assert.equal(upgraded.rates[0].session,400);
+  assert.equal(upgraded.records['2026-07-27'].D001.meal,1);
+  assert.equal(data.rates[0].meal,400);
 });
